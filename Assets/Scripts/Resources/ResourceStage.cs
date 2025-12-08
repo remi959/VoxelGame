@@ -3,8 +3,6 @@ using UnityEngine;
 
 namespace Assets.Scripts.Resources
 {
-    
-
     [System.Serializable]
     public class ResourceStage
     {
@@ -14,7 +12,6 @@ namespace Assets.Scripts.Resources
 
         [Header("Work Settings")]
         public float workTimePerPiece = 2f;
-        public int piecesToDetach = 1;
 
         [Tooltip("If true, the last piece of this stage can be picked up instantly")]
         public bool instantPickupLastPiece = true;
@@ -30,5 +27,14 @@ namespace Assets.Scripts.Resources
         [Header("Completion")]
         public bool destroyOnComplete = false;
         public GameObject remainsAfterComplete;
+
+        /// <summary>
+        /// Gets the number of pieces to detach by counting ResourcePiece components on the stage visual.
+        /// </summary>
+        public int GetPieceCount()
+        {
+            if (stageVisual == null) return 0;
+            return stageVisual.GetComponentsInChildren<ResourcePiece>(true).Length;
+        }
     }
 }

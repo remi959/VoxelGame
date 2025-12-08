@@ -71,7 +71,7 @@ namespace Assets.Scripts.Resources
         private Vector3 CalculateLaunchDirection()
         {
             float angle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
-            Vector3 horizontal = new Vector3(Mathf.Cos(angle), 0f, Mathf.Sin(angle));
+            Vector3 horizontal = new(Mathf.Cos(angle), 0f, Mathf.Sin(angle));
             float upward = Mathf.Tan(launchAngle * Mathf.Deg2Rad);
             return (horizontal + Vector3.up * upward).normalized;
         }

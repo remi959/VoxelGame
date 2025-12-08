@@ -14,6 +14,7 @@ namespace Assets.Scripts.Resources
 
         private int currentStageIndex = 0;
         private int piecesDetachedThisStage = 0;
+        private int totalPiecesInStage = 0; // Track total pieces for this stage
         private List<ResourcePiece> availablePieces = new();
         private Coroutine workCoroutine;
 
@@ -35,23 +36,27 @@ namespace Assets.Scripts.Resources
             currentStageIndex = stageIndex;
             piecesDetachedThisStage = 0;
 
-            // Hide all stage visuals and remains
-            foreach (var stage in stages)
+            if (currentStageIndex >= stages.Length)
             {
-                if (stage.stageVisual != null)
-                    stage.stageVisual.SetActive(false);
-                if (stage.remainsAfterComplete != null)
-                    stage.remainsAfterComplete.SetActive(false);
+                Debug.Log("Resource: No more stages");
+                return;
             }
 
-            // Show current stage
-            if (CurrentStage?.stageVisual != null)
+            // Hide all stage visuals, show current
+            for (int i = 0; i < stages.Length; i++)
             {
-                CurrentStage.stageVisual.SetActive(true);
-                RefreshAvailablePieces();
+                if (stages[i].stageVisual != null)
+                {
+                    stages[i].stageVisual.SetActive(i == currentStageIndex);
+                }
             }
 
-            Debug.Log($"Resource: Initialized stage {stageIndex} ({CurrentStage?.stageName})");
+            // Get piece count from the actual objects
+            totalPiecesInStage = CurrentStage.GetPieceCount();
+            
+            RefreshAvailablePieces();
+
+            Debug.Log($"Resource: Initialized stage {currentStageIndex} ({CurrentStage.stageName}) with {totalPiecesInStage} pieces");
         }
 
         private void RefreshAvailablePieces()
@@ -60,9 +65,9 @@ namespace Assets.Scripts.Resources
 
             if (CurrentStage?.stageVisual == null) return;
 
-            // Find all pieces in current stage
-            var pieces = CurrentStage.stageVisual.GetComponentsInChildren<ResourcePiece>();
-            foreach (var piece in pieces)
+            // Get all ResourcePiece components that haven't been detached yet
+            var allPieces = CurrentStage.stageVisual.GetComponentsInChildren<ResourcePiece>(false);
+            foreach (var piece in allPieces)
             {
                 if (!piece.IsDetached)
                 {
@@ -70,24 +75,24 @@ namespace Assets.Scripts.Resources
                 }
             }
 
-            // Order pieces based on harvest order setting
+            // Sort based on harvest order
             switch (CurrentStage.harvestOrder)
             {
                 case EHarvestOrder.Random:
-                    ShuffleList(availablePieces);
+                    // Shuffle the list
+                    for (int i = availablePieces.Count - 1; i > 0; i--)
+                    {
+                        int j = Random.Range(0, i + 1);
+                        (availablePieces[i], availablePieces[j]) = (availablePieces[j], availablePieces[i]);
+                    }
                     break;
-                    
+
                 case EHarvestOrder.Sequential:
                     // Already in hierarchy order from GetComponentsInChildren
-                    // Sort by sibling index to ensure correct order
-                    availablePieces.Sort((a, b) => 
-                        a.transform.GetSiblingIndex().CompareTo(b.transform.GetSiblingIndex()));
                     break;
-                    
+
                 case EHarvestOrder.ReverseSequential:
-                    // Reverse hierarchy order (last child first)
-                    availablePieces.Sort((a, b) => 
-                        b.transform.GetSiblingIndex().CompareTo(a.transform.GetSiblingIndex()));
+                    availablePieces.Reverse();
                     break;
             }
 
@@ -123,7 +128,7 @@ namespace Assets.Scripts.Resources
 
             // Check if this is the last piece and instant pickup is enabled
             bool isLastPiece = availablePieces.Count == 1;
-            bool skipWorkTime = isLastPiece && CurrentStage.instantPickupLastPiece;
+            bool skipWorkTime = isLastPiece && CurrentStage.instantPickupLastPiece && piecesDetachedThisStage > 0;
 
             if (!skipWorkTime)
             {
@@ -135,35 +140,35 @@ namespace Assets.Scripts.Resources
                 yield return null;
             }
 
-            ResourceFragment fragment = null;
+            workCoroutine = null;
 
-            if (CurrentStage.piecesToDetach > 0 && availablePieces.Count > 0)
+            // Detach a piece if available
+            if (totalPiecesInStage > 0 && availablePieces.Count > 0)
             {
-                fragment = DetachNextPiece();
+                ResourceFragment fragment = DetachNextPiece();
                 piecesDetachedThisStage++;
+                Debug.Log($"Resource: Detached piece {piecesDetachedThisStage}/{totalPiecesInStage}");
 
-                Debug.Log($"Resource: Detached piece {piecesDetachedThisStage}/{CurrentStage.piecesToDetach}");
-
-                if (piecesDetachedThisStage >= CurrentStage.piecesToDetach || availablePieces.Count == 0)
+                // Check if stage is complete (all pieces detached)
+                if (availablePieces.Count == 0)
                 {
                     yield return StartCoroutine(TransitionToNextStage());
                 }
+
+                onFragmentReady?.Invoke(fragment);
             }
             else
             {
-                Debug.Log($"Resource: Stage {CurrentStage.stageName} complete, transitioning...");
+                // No pieces to detach, just transition
                 yield return StartCoroutine(TransitionToNextStage());
+                onFragmentReady?.Invoke(null);
             }
-
-            workCoroutine = null;
-            onFragmentReady?.Invoke(fragment);
         }
 
         private ResourceFragment DetachNextPiece()
         {
             if (availablePieces.Count == 0) return null;
 
-            // Always take the first piece (order was determined in RefreshAvailablePieces)
             ResourcePiece piece = availablePieces[0];
             availablePieces.RemoveAt(0);
 
@@ -176,7 +181,7 @@ namespace Assets.Scripts.Resources
 
             if (completedStage.playTransitionAnimation && completedStage.stageVisual != null)
             {
-                Debug.Log($"Resource: Playing transition animation");
+                Debug.Log($"Resource: Playing transition animation for {completedStage.stageName}");
                 yield return StartCoroutine(PlayTransitionAnimation(completedStage));
             }
 
@@ -198,42 +203,38 @@ namespace Assets.Scripts.Resources
             }
             else
             {
-                Debug.Log($"Resource: Fully depleted");
+                Debug.Log("Resource: Fully depleted");
 
                 if (completedStage.destroyOnComplete)
                 {
                     EventBus.Publish(new ResourceDepletedEvent { Resource = gameObject });
-                    Destroy(gameObject, 0.5f);
+                    Destroy(gameObject, 0.1f);
                 }
             }
         }
 
         private IEnumerator PlayTransitionAnimation(ResourceStage stage)
         {
+            if (stage.stageVisual == null) yield break;
+
             Transform visual = stage.stageVisual.transform;
-            Quaternion startRot = visual.localRotation;
-            Quaternion endRot = Quaternion.Euler(stage.transitionRotation);
+            Quaternion startRotation = visual.localRotation;
+            Quaternion endRotation = startRotation * Quaternion.Euler(stage.transitionRotation);
 
             float elapsed = 0f;
             while (elapsed < stage.transitionDuration)
             {
                 elapsed += Time.deltaTime;
                 float t = elapsed / stage.transitionDuration;
+
+                // Ease out curve for natural falling motion
                 t = 1f - Mathf.Pow(1f - t, 2f);
-                visual.localRotation = Quaternion.Slerp(startRot, endRot, t);
+
+                visual.localRotation = Quaternion.Slerp(startRotation, endRotation, t);
                 yield return null;
             }
 
-            visual.localRotation = endRot;
-        }
-
-        private void ShuffleList<T>(List<T> list)
-        {
-            for (int i = list.Count - 1; i > 0; i--)
-            {
-                int j = Random.Range(0, i + 1);
-                (list[i], list[j]) = (list[j], list[i]);
-            }
+            visual.localRotation = endRotation;
         }
     }
 }

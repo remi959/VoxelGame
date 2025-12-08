@@ -10,7 +10,7 @@ namespace Assets.Scripts.Resources
         [SerializeField] private float pickupAnimationDuration = 0.25f;
         [SerializeField] private float dropAnimationDuration = 0.2f;
         [SerializeField] private float stackHeight = 0.5f;
-        [SerializeField] private float carryScale = 0.4f;
+        [SerializeField] private float carryScale = 0.5f;
 
         private EResourceType resourceType;
         private int value;
