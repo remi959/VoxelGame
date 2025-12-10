@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8579eeb5298135d438a597e4d5af2ec8, type: 3}
+  m_Name: StonePiece
+  m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.Data.Resources.SimpleResourceDefinitionSO
+  resourceName: 
+  resourceType: 1
+  valuePerPiece: 5
+  pieceSize: 1
+  harvestTimePerPiece: 2
+  harvestOrder: 3
+  destroyOnComplete: 1
+  piecePrefabs:
+  - {fileID: 5985894337696457726, guid: aae873a39d70f6a4a9483cc0f0d0d967, type: 3}
+  minPieces: 3
+  maxPieces: 8
+  instantPickupLastPiece: 0
+  stages:
+  - stageName: Base
+    workTimePerPiece: 2
+    yieldsPieces: 1
+    instantPickupLastPiece: 0
+    playTransitionAnimation: 0
+    transitionDuration: 0
+    transitionRotation: {x: 0, y: 0, z: 0}
+    destroyOnComplete: 1

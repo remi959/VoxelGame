@@ -11,10 +11,7 @@ namespace Assets.Scripts.NPCs.States
 
         public IState CurrentState => currentState;
 
-        public void AddState(IState state)
-        {
-            states[state.GetType()] = state;
-        }
+        public void AddState(IState state) => states[state.GetType()] = state;
 
         public void SetState<T>() where T : IState
         {
@@ -33,8 +30,7 @@ namespace Assets.Scripts.NPCs.States
 
         public T GetState<T>() where T : class, IState
         {
-            if (states.TryGetValue(typeof(T), out var state))
-                return state as T;
+            if (states.TryGetValue(typeof(T), out var state)) return state as T;
             return null;
         }
 

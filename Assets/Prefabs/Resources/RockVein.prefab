@@ -48,16 +48,13 @@ MonoBehaviour:
   resourceType: 1
   stages:
   - stageName: Start
-    stageVisual: {fileID: 1073463198120519495}
     workTimePerPiece: 1
-    piecesToDetach: 5
+    yieldsPieces: 1
     instantPickupLastPiece: 1
-    harvestOrder: 2
     playTransitionAnimation: 0
     transitionDuration: 0
     transitionRotation: {x: 0, y: 0, z: 0}
     destroyOnComplete: 0
-    remainsAfterComplete: {fileID: 0}
 --- !u!1001 &1155258490387790141
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -179,11 +176,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4bf6555bd4e495c479f409f4c17c94e3, type: 3}
---- !u!1 &1073463198120519495 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2228710545106460282, guid: 4bf6555bd4e495c479f409f4c17c94e3, type: 3}
-  m_PrefabInstance: {fileID: 1155258490387790141}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3394504124253149653 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4545256814847221992, guid: 4bf6555bd4e495c479f409f4c17c94e3, type: 3}

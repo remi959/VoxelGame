@@ -44,8 +44,7 @@ namespace Assets.Scripts.NPCs
 
         protected virtual void Start()
         {
-            if (selectionIndicator != null)
-                selectionIndicator.SetActive(false);
+            if (selectionIndicator != null) selectionIndicator.SetActive(false);
         }
 
         protected virtual void Update()
@@ -56,8 +55,7 @@ namespace Assets.Scripts.NPCs
         public virtual void OnSelected()
         {
             isSelected = true;
-            if (selectionIndicator != null)
-                selectionIndicator.SetActive(true);
+            if (selectionIndicator != null) selectionIndicator.SetActive(true);
 
             Debug.Log($"{npcName} selected");
         }
@@ -65,29 +63,19 @@ namespace Assets.Scripts.NPCs
         public virtual void OnDeselected()
         {
             isSelected = false;
-            if (selectionIndicator != null)
-                selectionIndicator.SetActive(false);
+            if (selectionIndicator != null) selectionIndicator.SetActive(false);
 
             Debug.Log($"{npcName} deselected");
         }
 
-        public virtual void MoveTo(Vector3 destination)
-        {
-            motor.SetDestination(destination);
-        }
+        public virtual void MoveTo(Vector3 destination) => motor.SetDestination(destination);
 
-        public virtual void Stop()
-        {
-            motor.Stop();
-        }
+        public virtual void Stop() => motor.Stop();
 
         public virtual void TakeDamage(float damage)
         {
             currentHealth -= damage;
-            if (currentHealth <= 0)
-            {
-                Die();
-            }
+            if (currentHealth <= 0) Die();
         }
 
         protected virtual void Die()

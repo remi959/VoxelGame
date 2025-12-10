@@ -1,4 +1,3 @@
-using Assets.Scripts.Shared.Enums;
 using UnityEngine;
 
 namespace Assets.Scripts.Resources
@@ -8,16 +7,15 @@ namespace Assets.Scripts.Resources
     {
         [Header("Stage Info")]
         public string stageName;
-        public GameObject stageVisual;
 
         [Header("Work Settings")]
         public float workTimePerPiece = 2f;
+        
+        [Tooltip("If true, this stage will detach pieces when worked")]
+        public bool yieldsPieces = false;
 
         [Tooltip("If true, the last piece of this stage can be picked up instantly")]
         public bool instantPickupLastPiece = true;
-
-        [Tooltip("Order in which pieces are harvested")]
-        public EHarvestOrder harvestOrder = EHarvestOrder.Random;
 
         [Header("Transition")]
         public bool playTransitionAnimation = false;
@@ -26,15 +24,23 @@ namespace Assets.Scripts.Resources
 
         [Header("Completion")]
         public bool destroyOnComplete = false;
-        public GameObject remainsAfterComplete;
 
         /// <summary>
-        /// Gets the number of pieces to detach by counting ResourcePiece components on the stage visual.
+        /// Create a shallow copy of this stage.
         /// </summary>
-        public int GetPieceCount()
+        public ResourceStage Clone()
         {
-            if (stageVisual == null) return 0;
-            return stageVisual.GetComponentsInChildren<ResourcePiece>(true).Length;
+            return new ResourceStage
+            {
+                stageName = stageName,
+                workTimePerPiece = workTimePerPiece,
+                yieldsPieces = yieldsPieces,
+                instantPickupLastPiece = instantPickupLastPiece,
+                playTransitionAnimation = playTransitionAnimation,
+                transitionDuration = transitionDuration,
+                transitionRotation = transitionRotation,
+                destroyOnComplete = destroyOnComplete
+            };
         }
     }
 }

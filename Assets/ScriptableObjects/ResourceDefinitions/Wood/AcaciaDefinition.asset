@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ea96f0111c0c8245b0354a2c2a41603, type: 3}
+  m_Name: AcaciaDefinition
+  m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.Data.Resources.TreeResourceDefinitionSO
+  resourceName: AcaciaTree
+  resourceType: 0
+  valuePerPiece: 5
+  pieceSize: 1
+  harvestTimePerPiece: 1
+  harvestOrder: 4
+  destroyOnComplete: 1
+  basePrefabs:
+  - {fileID: 2049136401493094075, guid: 8d5ab087b40f34f49863184d2ccc7a8b, type: 3}
+  trunkPrefabs:
+  - {fileID: 2716740245234916204, guid: f70479695e21aa545a4a4b4dd976f871, type: 3}
+  topPrefabs:
+  - {fileID: 5487986149940586303, guid: c21678e577f315b46a8e4db64aaaafa1, type: 3}
+  minTrunkPieces: 3
+  maxTrunkPieces: 10
+  useBasePiece: 1
+  includeTopPiece: 1
+  topPieceHarvestable: 1
+  chopTime: 2
+  fallDuration: 1.5
+  fallAngle: 90
+  stages:
+  - stageName: Standing
+    workTimePerPiece: 2
+    yieldsPieces: 0
+    instantPickupLastPiece: 0
+    playTransitionAnimation: 1
+    transitionDuration: 1.5
+    transitionRotation: {x: 90, y: 0, z: 0}
+    destroyOnComplete: 0
+  - stageName: Fallen Log
+    workTimePerPiece: 2
+    yieldsPieces: 1
+    instantPickupLastPiece: 1
+    playTransitionAnimation: 0
+    transitionDuration: 1.5
+    transitionRotation: {x: 90, y: 0, z: 0}
+    destroyOnComplete: 1

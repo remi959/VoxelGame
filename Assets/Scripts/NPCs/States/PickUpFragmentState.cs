@@ -1,3 +1,4 @@
+using Assets.Scripts.Core;
 using Assets.Scripts.NPCs.Units;
 using Assets.Scripts.Resources;
 using Assets.Scripts.Shared.Interfaces;
@@ -32,52 +33,45 @@ namespace Assets.Scripts.NPCs.States
         {
             hasPickedUp = false;
             postPickupDelay = 0f;
-            
+
             if (targetFragment == null)
             {
-                Debug.LogWarning("PickUpFragmentState: No fragment to pick up!");
+                DebugManager.LogWarning("PickUpFragmentState: No fragment to pick up!");
                 ContinueGatheringOrFinish();
                 return;
             }
 
-            Debug.Log("PickUpFragmentState: Moving to fragment");
+            DebugManager.LogState("PickUpFragmentState: Moving to fragment");
         }
 
         public void Update()
         {
-            // If we've picked up, wait a tiny bit before continuing
             if (hasPickedUp)
             {
                 postPickupDelay += Time.deltaTime;
-                if (postPickupDelay >= POST_PICKUP_WAIT)
-                {
-                    DecideNextAction();
-                }
+                if (postPickupDelay >= POST_PICKUP_WAIT) DecideNextAction();
+
                 return;
             }
-            
+
             if (targetFragment == null)
             {
-                Debug.Log("PickUpFragmentState: Fragment gone");
+                DebugManager.LogState("PickUpFragmentState: Fragment gone");
                 ContinueGatheringOrFinish();
                 return;
             }
 
-            // Keep following fragment until it settles
-            worker.Motor.SetDestination(targetFragment.transform.position);
+            // Wait for fragment to settle before moving
+            if (!targetFragment.CanBePickedUp) { worker.Motor.Stop(); return; }
 
-            if (!targetFragment.CanBePickedUp)
-            {
-                return;
-            }
-
+            // Only set destination once when fragment is settled
             float distance = Vector3.Distance(worker.transform.position, targetFragment.transform.position);
 
-            if (distance <= targetFragment.PickupDistance)
+            if (distance > targetFragment.PickupDistance) worker.Motor.SetDestination(targetFragment.transform.position);
+            else
             {
-                Debug.Log($"PickUpFragmentState: Picking up fragment worth {targetFragment.Value}");
-
-                // Add fragment with visual attachment
+                worker.Motor.Stop();
+                DebugManager.LogState($"PickUpFragmentState: Picking up fragment worth {targetFragment.Value}");
                 worker.AddToInventory(targetFragment);
                 targetFragment = null;
                 hasPickedUp = true;
@@ -90,13 +84,10 @@ namespace Assets.Scripts.NPCs.States
             // Decide what to do next
             if (worker.IsInventoryFull)
             {
-                Debug.Log("PickUpFragmentState: Inventory full, returning to storage");
+                DebugManager.LogState("PickUpFragmentState: Inventory full, returning to storage");
                 worker.ReturnToStorage();
             }
-            else
-            {
-                ContinueGatheringOrFinish();
-            }
+            else ContinueGatheringOrFinish();
         }
 
         private void ContinueGatheringOrFinish()
@@ -104,7 +95,7 @@ namespace Assets.Scripts.NPCs.States
             // Check if we should continue gathering from the same resource
             if (sourceResource != null && !sourceResource.IsDepleted)
             {
-                Debug.Log("PickUpFragmentState: Continuing to gather");
+                DebugManager.LogState("PickUpFragmentState: Continuing to gather");
                 worker.GatherFrom(sourceResource);
             }
             else
@@ -112,12 +103,12 @@ namespace Assets.Scripts.NPCs.States
                 // Resource depleted
                 if (worker.CarriedAmount > 0)
                 {
-                    Debug.Log("PickUpFragmentState: Resource depleted, returning carried resources");
+                    DebugManager.LogState("PickUpFragmentState: Resource depleted, returning carried resources");
                     worker.ReturnToStorage();
                 }
                 else
                 {
-                    Debug.Log("PickUpFragmentState: Going idle");
+                    DebugManager.LogState("PickUpFragmentState: Going idle");
                     stateMachine.SetState<WorkerIdleState>();
                 }
             }

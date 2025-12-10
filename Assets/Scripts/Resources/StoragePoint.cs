@@ -17,7 +17,7 @@ namespace Assets.Scripts.Resources
         public bool AcceptsAllTypes => acceptAllTypes;
 
         private void OnEnable() { if (!allStoragePoints.Contains(this)) allStoragePoints.Add(this); }
-        private void OnDestroy() => allStoragePoints.Remove(this);
+        private void OnDisable() => allStoragePoints.Remove(this);
 
 
         /// <summary>
@@ -52,12 +52,8 @@ namespace Assets.Scripts.Resources
         public static StoragePoint FindAny(EResourceType resourceType)
         {
             foreach (var storage in allStoragePoints)
-            {
-                if (storage != null && storage.AcceptsType(resourceType))
-                {
-                    return storage;
-                }
-            }
+                if (storage != null && storage.AcceptsType(resourceType)) return storage;
+
             return null;
         }
 
@@ -68,30 +64,19 @@ namespace Assets.Scripts.Resources
         {
             List<StoragePoint> matching = new();
             foreach (var storage in allStoragePoints)
-            {
-                if (storage != null && storage.AcceptsType(resourceType))
-                {
-                    matching.Add(storage);
-                }
-            }
+                if (storage != null && storage.AcceptsType(resourceType)) matching.Add(storage);
+
             return matching;
         }
 
         /// <summary>
         /// Check if this storage point accepts the given resource type.
         /// </summary>
-        public bool AcceptsType(EResourceType type)
-        {
-            return acceptAllTypes || acceptedResourceType == type;
-        }
+        public bool AcceptsType(EResourceType type) => acceptAllTypes || acceptedResourceType == type;
 
         public void Deposit(EResourceType type, int amount)
         {
-            if (!AcceptsType(type))
-            {
-                Debug.LogWarning($"StoragePoint: Cannot deposit {type}, only accepts {acceptedResourceType}");
-                return;
-            }
+            if (!AcceptsType(type)) { Debug.LogWarning($"StoragePoint: Cannot deposit {type}, only accepts {acceptedResourceType}"); return; }
 
             Debug.Log($"StoragePoint: Deposited {amount} {type}");
 

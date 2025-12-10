@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7686191853375912336}
   - component: {fileID: 5927843134913468242}
   - component: {fileID: 4916268184349684557}
+  - component: {fileID: -5251564784254980580}
   m_Layer: 0
   m_Name: StonePiece
   m_TagString: Untagged
@@ -46,11 +47,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da5f26c0eb536444bb8ea09500483e71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.Resources.ResourcePiece
-  launchForce: 3
-  launchAngle: 45
-  maxDistance: 3
-  stopAfterSeconds: 2
   resourceValue: 5
+  PieceSize: 1
+  variantId: stone
+  pieceType: 0
+  navObstacle: {fileID: -5251564784254980580}
+  pieceCollider: {fileID: 4916268184349684557}
 --- !u!136 &4916268184349684557
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -74,6 +76,22 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!208 &-5251564784254980580
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5985894337696457726}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.4, y: 0.4, z: 0.4}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 0
+  m_Center: {x: 0, y: 0.5, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1001 &3851122023730454224
 PrefabInstance:
   m_ObjectHideFlags: 0

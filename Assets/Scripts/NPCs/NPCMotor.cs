@@ -24,9 +24,7 @@ namespace Assets.Scripts.NPCs
         public void SetDestination(Vector3 destination)
         {
             if (NavMesh.SamplePosition(destination, out NavMeshHit hit, 10f, NavMesh.AllAreas))
-            {
                 agent.SetDestination(hit.position);
-            }
         }
 
         public void Stop()

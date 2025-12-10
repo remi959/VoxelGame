@@ -27,23 +27,13 @@ namespace Assets.Scripts.NPCs.States
 
         public void Enter()
         {
-            if (targetPosition.HasValue)
-            {
-                npc.Motor.SetDestination(targetPosition.Value);
-            }
-            else
-            {
-                stateMachine.SetState<WorkerIdleState>();
-            }
+            if (targetPosition.HasValue) npc.Motor.SetDestination(targetPosition.Value);
+            else stateMachine.SetState<WorkerIdleState>();
         }
 
         public void Update()
         {
-            if (!targetPosition.HasValue)
-            {
-                stateMachine.SetState<WorkerIdleState>();
-                return;
-            }
+            if (!targetPosition.HasValue) { stateMachine.SetState<WorkerIdleState>(); return; }
 
             float distance = Vector3.Distance(npc.transform.position, targetPosition.Value);
 

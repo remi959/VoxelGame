@@ -40,7 +40,7 @@ namespace Assets.Scripts.Core
 
             // For left-click selection: NPCs and Ground
             selectableLayerMask = LayerMask.GetMask(Strings.GroundLayerName, Strings.NPCLayerName);
-            
+
             // For right-click commands: Ground and Interactables
             commandLayerMask = LayerMask.GetMask(Strings.GroundLayerName, Strings.InteractableLayerName);
 
@@ -92,10 +92,7 @@ namespace Assets.Scripts.Core
                     selectionBox.FinishSelection(dragStartPosition, mousePosition);
                     isDragging = false;
                 }
-                else
-                {
-                    ProcessLeftClick();
-                }
+                else ProcessLeftClick();
             }
         }
 
@@ -117,10 +114,7 @@ namespace Assets.Scripts.Core
                         AddToSelection = addToSelection
                     });
                 }
-                else if (hitLayer == groundLayer)
-                {
-                    EventBus.Publish(new SelectionClearedEvent());
-                }
+                else if (hitLayer == groundLayer) EventBus.Publish(new SelectionClearedEvent());
             }
         }
 
@@ -133,10 +127,7 @@ namespace Assets.Scripts.Core
                 rightClickHeld = true;
                 ProcessRightClick();
             }
-            else if (!isPressed)
-            {
-                rightClickHeld = false;
-            }
+            else if (!isPressed) rightClickHeld = false;
         }
 
         private void ProcessRightClick()
@@ -148,21 +139,9 @@ namespace Assets.Scripts.Core
                 int hitLayer = hitInfo.collider.gameObject.layer;
 
                 if (hitLayer == interactableLayer)
-                {
-                    // Right-clicked on an interactable (resource, building, etc.)
-                    EventBus.Publish(new InteractCommandEvent
-                    {
-                        Target = hitInfo.collider.gameObject
-                    });
-                }
+                    EventBus.Publish(new InteractCommandEvent { Target = hitInfo.collider.gameObject });
                 else if (hitLayer == groundLayer)
-                {
-                    // Right-clicked on ground - move command
-                    EventBus.Publish(new MoveCommandEvent
-                    {
-                        Destination = hitInfo.point
-                    });
-                }
+                    EventBus.Publish(new MoveCommandEvent { Destination = hitInfo.point });
             }
         }
     }

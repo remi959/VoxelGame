@@ -42,13 +42,9 @@ namespace Assets.Scripts.Core
 
         private void OnNPCSelected(NPCSelectedEvent e)
         {
-            var npc = e.NPC.GetComponent<NPCBase>();
-            if (npc == null) return;
+            if (!e.NPC.TryGetComponent<NPCBase>(out var npc)) return;
 
-            if (!e.AddToSelection)
-            {
-                ClearSelection();
-            }
+            if (!e.AddToSelection) ClearSelection();
 
             if (!selectedNPCs.Contains(npc))
             {
@@ -59,43 +55,28 @@ namespace Assets.Scripts.Core
 
         private void OnNPCDeselected(NPCDeselectedEvent e)
         {
-            var npc = e.NPC.GetComponent<NPCBase>();
-            if (npc == null) return;
+            if (!e.NPC.TryGetComponent<NPCBase>(out var npc)) return;
 
-            if (selectedNPCs.Remove(npc))
-            {
-                npc.OnDeselected();
-            }
+            if (selectedNPCs.Remove(npc)) npc.OnDeselected();
         }
 
-        private void OnSelectionCleared(SelectionClearedEvent e)
-        {
-            ClearSelection();
-        }
+        private void OnSelectionCleared(SelectionClearedEvent e) => ClearSelection();
 
         private void ClearSelection()
         {
-            foreach (var npc in selectedNPCs)
-            {
-                npc.OnDeselected();
-            }
+            foreach (var npc in selectedNPCs) npc.OnDeselected();
+
             selectedNPCs.Clear();
         }
 
         private void OnMoveCommand(MoveCommandEvent e)
         {
-            foreach (var npc in selectedNPCs)
-            {
-                npc.MoveTo(e.Destination);
-            }
+            foreach (var npc in selectedNPCs) npc.MoveTo(e.Destination);
         }
 
         private void OnInteractCommand(InteractCommandEvent e)
         {
-            foreach (var npc in selectedNPCs)
-            {
-                npc.InteractWith(e.Target);
-            }
+            foreach (var npc in selectedNPCs) npc.InteractWith(e.Target);
         }
     }
 }

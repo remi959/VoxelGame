@@ -35,9 +35,6 @@ namespace Assets.Scripts.Events
                 ((Action<T>)handler)?.Invoke(eventData);
         }
 
-        public static void Clear()
-        {
-            events.Clear();
-        }
+        public static void Clear() => events.Clear();
     }
 }
