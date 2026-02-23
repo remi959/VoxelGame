@@ -1,0 +1,13 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/USS/GameUI.uss?fileID=7433441132597879392&amp;guid=099d383ca7f19824d8ecfcf7f1517f0b&amp;type=3#GameUI"/>
+    <ui:VisualElement name="entry-container" class="building-entry">
+        <ui:VisualElement name="icon-container" class="building-entry__icon-container">
+            <ui:VisualElement name="icon" class="building-entry__icon"/>
+        </ui:VisualElement>
+        <ui:VisualElement name="info-container" class="building-entry__info">
+            <ui:Label name="building-name" text="Building Name" class="building-entry__name"/>
+            <ui:Label name="building-description" text="Description" class="building-entry__description"/>
+        </ui:VisualElement>
+        <ui:VisualElement name="costs-container" class="building-entry__costs"/>
+    </ui:VisualElement>
+</ui:UXML>

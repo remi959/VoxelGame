@@ -1,0 +1,701 @@
+/*
+ * GameUI.uss - Main stylesheet for the game UI
+ * 
+ * Organization:
+ * 1. Root & Layout
+ * 2. Resource Panel
+ * 3. Resource Entry
+ * 4. Utility Classes
+ * 5. Animations (future)
+ * 
+ * Naming Convention: BEM-like
+ * - Block: .resource-panel
+ * - Element: .resource-panel__entries
+ * - Modifier: .resource-entry--highlighted
+ */
+
+/* =============================================================================
+   1. ROOT & LAYOUT
+   ============================================================================= */
+
+.game-ui-root {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.top-bar {
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 10px;
+}
+
+.center-area {
+    flex-grow: 1;
+}
+
+.bottom-bar {
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-end;
+    padding: 10px;
+}
+
+/* =============================================================================
+   2. RESOURCE PANEL
+   ============================================================================= */
+
+.resource-panel {
+    background-color: rgba(20, 20, 20, 0.85);
+    border-radius: 8px;
+    padding: 8px 12px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.resource-panel__entries {
+    flex-direction: row;
+    align-items: center;
+}
+
+/* =============================================================================
+   3. RESOURCE ENTRY
+   ============================================================================= */
+
+.resource-entry {
+    flex-direction: row;
+    align-items: center;
+    margin-right: 20px;
+    padding: 4px 8px;
+}
+
+/* Applied to the last entry via code (Unity USS doesn't support :last-child) */
+.resource-entry--last {
+    margin-right: 0;
+}
+
+.resource-entry__icon-container {
+    width: 24px;
+    height: 24px;
+    margin-right: 6px;
+    justify-content: center;
+    align-items: center;
+}
+
+.resource-entry__icon {
+    width: 100%;
+    height: 100%;
+    -unity-background-scale-mode: scale-to-fit;
+}
+
+/* Hide icon container when no icon is present */
+.resource-entry--no-icon .resource-entry__icon-container {
+    display: none;
+}
+
+.resource-entry__name {
+    color: rgba(200, 200, 200, 0.9);
+    font-size: 12px;
+    margin-right: 8px;
+    -unity-font-style: normal;
+}
+
+.resource-entry__counter {
+    color: rgb(255, 255, 255);
+    font-size: 14px;
+    -unity-font-style: bold;
+    min-width: 40px;
+    -unity-text-align: middle-right;
+}
+
+/* =============================================================================
+   4. RESOURCE TYPE MODIFIERS (for custom colors per resource)
+   ============================================================================= */
+
+.resource-entry--wood .resource-entry__counter {
+    color: rgb(205, 133, 63);
+}
+
+.resource-entry--stone .resource-entry__counter {
+    color: rgb(169, 169, 169);
+}
+
+.resource-entry--food .resource-entry__counter {
+    color: rgb(144, 238, 144);
+}
+
+.resource-entry--gold .resource-entry__counter {
+    color: rgb(255, 215, 0);
+}
+
+/* =============================================================================
+   5. UTILITY CLASSES
+   ============================================================================= */
+
+.hidden {
+    display: none;
+}
+
+.invisible {
+    visibility: hidden;
+}
+
+/* =============================================================================
+   6. HOVER & INTERACTION STATES
+   ============================================================================= */
+
+.resource-entry:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+
+/* =============================================================================
+   7. VALUE CHANGE ANIMATIONS (future enhancement)
+   ============================================================================= */
+
+.resource-entry--value-increased .resource-entry__counter {
+    /* Can add transition or animation here */
+}
+
+.resource-entry--value-decreased .resource-entry__counter {
+    /* Can add transition or animation here */
+}
+
+/* =============================================================================
+   8. BUILDING MENU
+   ============================================================================= */
+
+.building-menu {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    translate: -50% -50%;
+    width: 450px;
+    max-height: 70%;
+    background-color: rgba(20, 20, 25, 0.95);
+    border-radius: 12px;
+    border-width: 2px;
+    border-color: rgba(100, 150, 255, 0.3);
+    padding: 0;
+    flex-direction: column;
+}
+
+.building-menu__header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(40, 60, 100, 0.3);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.building-menu__title {
+    font-size: 18px;
+    color: rgb(220, 220, 255);
+    -unity-font-style: bold;
+}
+
+.building-menu__close-hint {
+    font-size: 11px;
+    color: rgba(180, 180, 200, 0.7);
+}
+
+.building-menu__scroll {
+    flex-grow: 1;
+    padding: 8px;
+}
+
+.building-menu__entries {
+    flex-direction: column;
+}
+
+.building-menu__footer {
+    padding: 8px 16px;
+    border-top-width: 1px;
+    border-top-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(30, 30, 35, 0.5);
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.building-menu__instructions {
+    font-size: 11px;
+    color: rgba(180, 180, 200, 0.6);
+    -unity-text-align: middle-center;
+}
+
+/* =============================================================================
+   9. BUILDING ENTRY
+   ============================================================================= */
+
+.building-entry {
+    flex-direction: row;
+    align-items: center;
+    padding: 10px 12px;
+    margin: 4px 0;
+    background-color: rgba(40, 40, 50, 0.6);
+    border-radius: 8px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.05);
+    transition-duration: 0.15s;
+}
+
+.building-entry:hover {
+    background-color: rgba(60, 80, 120, 0.7);
+    border-color: rgba(100, 150, 255, 0.4);
+}
+
+.building-entry--selected {
+    background-color: rgba(70, 100, 150, 0.8);
+    border-color: rgba(100, 150, 255, 0.6);
+}
+
+.building-entry--unaffordable {
+    opacity: 0.5;
+}
+
+.building-entry--unaffordable:hover {
+    background-color: rgba(80, 50, 50, 0.5);
+    border-color: rgba(255, 100, 100, 0.3);
+}
+
+.building-entry__icon-container {
+    width: 48px;
+    height: 48px;
+    margin-right: 12px;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 6px;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.building-entry__icon {
+    width: 40px;
+    height: 40px;
+    -unity-background-scale-mode: scale-to-fit;
+}
+
+.building-entry--no-icon .building-entry__icon-container {
+    background-color: rgba(60, 60, 80, 0.5);
+}
+
+.building-entry__info {
+    flex-grow: 1;
+    flex-direction: column;
+    justify-content: center;
+    margin-right: 12px;
+}
+
+.building-entry__name {
+    font-size: 14px;
+    color: rgb(230, 230, 255);
+    -unity-font-style: bold;
+    margin-bottom: 2px;
+}
+
+.building-entry__description {
+    font-size: 11px;
+    color: rgba(180, 180, 200, 0.7);
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.building-entry__costs {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: center;
+    max-width: 140px;
+}
+
+/* =============================================================================
+   10. BUILDING COST ENTRY
+   ============================================================================= */
+
+.building-cost {
+    flex-direction: row;
+    align-items: center;
+    margin: 2px 4px;
+    padding: 2px 6px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+.building-cost__icon {
+    width: 14px;
+    height: 14px;
+    margin-right: 4px;
+    -unity-background-scale-mode: scale-to-fit;
+}
+
+.building-cost__amount {
+    font-size: 12px;
+    color: rgb(200, 200, 200);
+    -unity-font-style: bold;
+}
+
+.building-cost--affordable .building-cost__amount {
+    color: rgb(150, 255, 150);
+}
+
+.building-cost--unaffordable .building-cost__amount {
+    color: rgb(255, 100, 100);
+}
+
+/* Resource type specific colors for cost amounts */
+.building-cost--wood .building-cost__amount {
+    color: rgb(205, 133, 63);
+}
+
+.building-cost--stone .building-cost__amount {
+    color: rgb(169, 169, 169);
+}
+
+.building-cost--food .building-cost__amount {
+    color: rgb(144, 238, 144);
+}
+
+.building-cost--gold .building-cost__amount {
+    color: rgb(255, 215, 0);
+}
+
+/* =============================================================================
+   11. CONTEXTUAL HOVER UI
+   ============================================================================= */
+
+.hover-panel {
+    position: absolute;
+    min-width: 180px;
+    max-width: 280px;
+    background-color: rgba(20, 20, 25, 0.95);
+    border-radius: 8px;
+    border-width: 1px;
+    border-color: rgba(100, 150, 255, 0.4);
+    padding: 0;
+    flex-direction: column;
+}
+
+.hover-panel__header {
+    padding: 10px 12px 8px 12px;
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(40, 60, 100, 0.3);
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+}
+
+.hover-panel__title {
+    font-size: 14px;
+    color: rgb(220, 220, 255);
+    -unity-font-style: bold;
+    margin-bottom: 2px;
+    white-space: normal;
+}
+
+.hover-panel__type {
+    font-size: 10px;
+    color: rgba(180, 180, 200, 0.7);
+    -unity-font-style: italic;
+}
+
+/* Type-specific colors */
+.hover-panel--building .hover-panel__type {
+    color: rgb(100, 180, 255);
+}
+
+.hover-panel--construction .hover-panel__type {
+    color: rgb(255, 200, 100);
+}
+
+.hover-panel--storage .hover-panel__type {
+    color: rgb(150, 255, 150);
+}
+
+.hover-panel__actions {
+    padding: 8px;
+    flex-direction: column;
+}
+
+/* =============================================================================
+   12. HOVER ACTION BUTTONS
+   ============================================================================= */
+
+.hover-action {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 8px 12px;
+    margin: 2px 0;
+    background-color: rgba(50, 50, 60, 0.6);
+    border-radius: 6px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.05);
+    transition-duration: 0.1s;
+}
+
+.hover-action:hover {
+    background-color: rgba(70, 90, 130, 0.8);
+    border-color: rgba(100, 150, 255, 0.4);
+}
+
+.hover-action:active {
+    background-color: rgba(90, 110, 150, 0.9);
+}
+
+.hover-action--disabled {
+    opacity: 0.4;
+}
+
+.hover-action--disabled:hover {
+    background-color: rgba(50, 50, 60, 0.6);
+    border-color: rgba(255, 255, 255, 0.05);
+}
+
+.hover-action__label {
+    font-size: 12px;
+    color: rgb(220, 220, 230);
+    -unity-text-align: middle-left;
+}
+
+/* Destructive action styling */
+.hover-action--destructive {
+    background-color: rgba(80, 40, 40, 0.6);
+    border-color: rgba(255, 100, 100, 0.2);
+}
+
+.hover-action--destructive:hover {
+    background-color: rgba(120, 50, 50, 0.8);
+    border-color: rgba(255, 100, 100, 0.5);
+}
+
+.hover-action--destructive .hover-action__label {
+    color: rgb(255, 150, 150);
+}
+
+.hover-action--destructive:hover .hover-action__label {
+    color: rgb(255, 200, 200);
+}
+
+/* =============================================================================
+   13. SPAWN UI PANEL
+   ============================================================================= */
+
+.spawn-panel {
+    position: absolute;
+    min-width: 320px;
+    max-width: 400px;
+    max-height: 500px;
+    background-color: rgba(20, 20, 25, 0.95);
+    border-radius: 10px;
+    border-width: 2px;
+    border-color: rgba(80, 180, 120, 0.4);
+    padding: 0;
+    flex-direction: column;
+}
+
+.spawn-panel__header {
+    padding: 12px 14px 10px 14px;
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(40, 80, 60, 0.3);
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.spawn-panel__title {
+    font-size: 16px;
+    color: rgb(180, 255, 200);
+    -unity-font-style: bold;
+    margin-bottom: 2px;
+}
+
+.spawn-panel__building-name {
+    font-size: 11px;
+    color: rgba(180, 200, 180, 0.7);
+    -unity-font-style: italic;
+}
+
+.spawn-panel__scroll {
+    flex-grow: 1;
+    padding: 8px;
+    max-height: 350px;
+}
+
+.spawn-panel__entries {
+    flex-direction: column;
+}
+
+.spawn-panel__footer {
+    padding: 8px 14px;
+    border-top-width: 1px;
+    border-top-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(30, 30, 35, 0.5);
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.spawn-panel__hint {
+    font-size: 10px;
+    color: rgba(150, 170, 150, 0.6);
+    -unity-text-align: middle-center;
+}
+
+/* =============================================================================
+   14. SPAWN UNIT ENTRY
+   ============================================================================= */
+
+.spawn-unit-entry {
+    flex-direction: row;
+    align-items: center;
+    padding: 10px 12px;
+    margin: 4px 0;
+    background-color: rgba(40, 50, 45, 0.6);
+    border-radius: 8px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.05);
+    transition-duration: 0.15s;
+}
+
+.spawn-unit-entry:hover {
+    background-color: rgba(60, 100, 80, 0.7);
+    border-color: rgba(100, 200, 150, 0.4);
+}
+
+.spawn-unit-entry--selected {
+    background-color: rgba(70, 120, 90, 0.8);
+    border-color: rgba(100, 200, 150, 0.6);
+}
+
+.spawn-unit-entry--disabled {
+    opacity: 0.5;
+}
+
+.spawn-unit-entry--disabled:hover {
+    background-color: rgba(50, 50, 45, 0.5);
+    border-color: rgba(255, 255, 255, 0.05);
+}
+
+.spawn-unit-entry__icon-container {
+    width: 44px;
+    height: 44px;
+    margin-right: 12px;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 6px;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.spawn-unit-entry__icon {
+    width: 36px;
+    height: 36px;
+    -unity-background-scale-mode: scale-to-fit;
+}
+
+.spawn-unit-entry--no-icon .spawn-unit-entry__icon-container {
+    background-color: rgba(60, 80, 70, 0.5);
+}
+
+.spawn-unit-entry__info {
+    flex-grow: 1;
+    flex-direction: column;
+    justify-content: center;
+    margin-right: 12px;
+    min-width: 100px;
+}
+
+.spawn-unit-entry__name {
+    font-size: 14px;
+    color: rgb(200, 255, 220);
+    -unity-font-style: bold;
+    margin-bottom: 2px;
+}
+
+.spawn-unit-entry__description {
+    font-size: 10px;
+    color: rgba(180, 200, 180, 0.7);
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.spawn-unit-entry__costs {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: center;
+    max-width: 120px;
+}
+
+.spawn-unit-entry__status {
+    min-width: 60px;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.spawn-unit-entry__status-text {
+    font-size: 10px;
+    color: rgb(255, 150, 100);
+    -unity-text-align: middle-right;
+}
+
+/* =============================================================================
+   15. SPAWN COST ENTRY
+   ============================================================================= */
+
+.spawn-cost {
+    flex-direction: row;
+    align-items: center;
+    margin: 2px 4px;
+    padding: 2px 6px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+.spawn-cost__icon {
+    width: 14px;
+    height: 14px;
+    margin-right: 4px;
+    -unity-background-scale-mode: scale-to-fit;
+}
+
+.spawn-cost__amount {
+    font-size: 11px;
+    color: rgb(200, 200, 200);
+    -unity-font-style: bold;
+}
+
+.spawn-cost--affordable .spawn-cost__amount {
+    color: rgb(150, 255, 150);
+}
+
+.spawn-cost--unaffordable .spawn-cost__amount {
+    color: rgb(255, 100, 100);
+}
+
+/* Resource type specific colors for spawn costs */
+.spawn-cost--wood .spawn-cost__amount {
+    color: rgb(205, 133, 63);
+}
+
+.spawn-cost--stone .spawn-cost__amount {
+    color: rgb(169, 169, 169);
+}
+
+.spawn-cost--food .spawn-cost__amount {
+    color: rgb(144, 238, 144);
+}
+
+.spawn-cost--gold .spawn-cost__amount {
+    color: rgb(255, 215, 0);
+}

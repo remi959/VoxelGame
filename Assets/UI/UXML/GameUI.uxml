@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    GameUI.uxml - Root UI document for the game
+    
+    This is the main UI layout that contains all UI panels.
+    It serves as an extensible shell that can host:
+    - Resource panel (top bar)
+    - Building menu (center overlay)
+    - Contextual hover UI
+    - Unit selection UI (future)
+    - Minimap (future)
+    - Tooltips (future)
+    
+    Design Notes:
+    - Uses PickingMode.Ignore on root to allow clicks through empty areas
+    - Each panel is self-contained and can be toggled independently
+    - Panels are positioned via USS classes
+    - Resource entries are created dynamically by ResourceUIController
+    - Building menu is shown/hidden via BuildingMenuController
+    - Hover panel is controlled by ContextualHoverUIController
+-->
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <Style src="project://database/Assets/UI/USS/GameUI.uss" />
+    
+    <!-- Root container spanning full screen -->
+    <ui:VisualElement name="game-ui-root" class="game-ui-root" picking-mode="Ignore">
+        
+        <!-- Top bar area (resources, etc.) -->
+        <ui:VisualElement name="top-bar" class="top-bar" picking-mode="Ignore">
+            <!-- Resource panel container - entries are added dynamically -->
+            <ui:VisualElement name="resource-panel" class="resource-panel">
+                <ui:VisualElement name="entries-container" class="resource-panel__entries" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        
+        <!-- Center area (building menu, selection info, context menus) -->
+        <ui:VisualElement name="center-area" class="center-area" picking-mode="Ignore">
+            <!-- Building menu panel - centered on screen, starts hidden -->
+            <ui:VisualElement name="building-menu" class="building-menu hidden">
+                
+                <!-- Header -->
+                <ui:VisualElement name="building-menu-header" class="building-menu__header">
+                    <ui:Label name="building-menu-title" text="Buildings" class="building-menu__title" />
+                    <ui:Label name="building-menu-close-hint" text="[ESC] Close" class="building-menu__close-hint" />
+                </ui:VisualElement>
+                
+                <!-- Scrollable content area -->
+                <ui:ScrollView name="building-menu-scroll" class="building-menu__scroll">
+                    <!-- Entries container - building entries are added here dynamically -->
+                    <ui:VisualElement name="building-entries-container" class="building-menu__entries" />
+                </ui:ScrollView>
+                
+                <!-- Footer with instructions -->
+                <ui:VisualElement name="building-menu-footer" class="building-menu__footer">
+                    <ui:Label name="building-menu-instructions" text="Click to select a building" class="building-menu__instructions" />
+                </ui:VisualElement>
+                
+            </ui:VisualElement>
+        </ui:VisualElement>
+        
+        <!-- Bottom bar area (action bar - future) -->
+        <ui:VisualElement name="bottom-bar" class="bottom-bar" picking-mode="Ignore" />
+        
+        <!-- Contextual Hover UI - floats near cursor, starts hidden -->
+        <ui:VisualElement name="hover-panel" class="hover-panel hidden" picking-mode="Position">
+            
+            <!-- Header with object info -->
+            <ui:VisualElement name="hover-header" class="hover-panel__header">
+                <ui:Label name="hover-title" text="Object Name" class="hover-panel__title" />
+                <ui:Label name="hover-type" text="Type" class="hover-panel__type" />
+            </ui:VisualElement>
+            
+            <!-- Actions container - buttons are added dynamically -->
+            <ui:VisualElement name="hover-actions" class="hover-panel__actions" />
+            
+        </ui:VisualElement>
+        
+        <!-- Unit Spawn UI - floats near cursor when right-clicking spawner buildings, starts hidden -->
+        <ui:VisualElement name="spawn-panel" class="spawn-panel hidden" picking-mode="Position">
+            
+            <!-- Header with spawner info -->
+            <ui:VisualElement name="spawn-header" class="spawn-panel__header">
+                <ui:Label name="spawn-title" text="Train Units" class="spawn-panel__title" />
+                <ui:Label name="spawn-building-name" text="Building Name" class="spawn-panel__building-name" />
+            </ui:VisualElement>
+            
+            <!-- Scrollable units container -->
+            <ui:ScrollView name="spawn-scroll" class="spawn-panel__scroll">
+                <ui:VisualElement name="spawn-entries" class="spawn-panel__entries" />
+            </ui:ScrollView>
+            
+            <!-- Footer with hint -->
+            <ui:VisualElement name="spawn-footer" class="spawn-panel__footer">
+                <ui:Label name="spawn-hint" text="Click to spawn • Right-click or Escape to close" class="spawn-panel__hint" />
+            </ui:VisualElement>
+            
+        </ui:VisualElement>
+        
+    </ui:VisualElement>
+</ui:UXML>

@@ -1,0 +1,15 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/USS/GameUI.uss?fileID=7433441132597879392&amp;guid=099d383ca7f19824d8ecfcf7f1517f0b&amp;type=3#GameUI"/>
+    <ui:VisualElement name="spawn-panel" picking-mode="Position" class="spawn-panel hidden">
+        <ui:VisualElement name="spawn-header" class="spawn-panel__header">
+            <ui:Label name="spawn-title" text="Train Units" class="spawn-panel__title"/>
+            <ui:Label name="spawn-building-name" text="Building Name" class="spawn-panel__building-name"/>
+        </ui:VisualElement>
+        <ui:ScrollView name="spawn-scroll" class="spawn-panel__scroll">
+            <ui:VisualElement name="spawn-entries" class="spawn-panel__entries"/>
+        </ui:ScrollView>
+        <ui:VisualElement name="spawn-footer" class="spawn-panel__footer">
+            <ui:Label name="spawn-hint" text="Click to spawn • Right-click or Escape to close" class="spawn-panel__hint"/>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

@@ -1,0 +1,10 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/USS/GameUI.uss?fileID=7433441132597879392&amp;guid=099d383ca7f19824d8ecfcf7f1517f0b&amp;type=3#GameUI"/>
+    <ui:VisualElement name="hover-panel" picking-mode="Position" class="hover-panel hidden">
+        <ui:VisualElement name="hover-header" class="hover-panel__header">
+            <ui:Label name="hover-title" text="Object Name" class="hover-panel__title"/>
+            <ui:Label name="hover-type" text="Type" class="hover-panel__type"/>
+        </ui:VisualElement>
+        <ui:VisualElement name="hover-actions" class="hover-panel__actions"/>
+    </ui:VisualElement>
+</ui:UXML>

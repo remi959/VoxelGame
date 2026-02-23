@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c76ed53123b0b248b5d702051024f23, type: 3}
+  m_Name: UnitSpawner
+  m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.Buildings.BuildingDefinitionSO
+  buildingId: unit_spawner
+  displayName: UnitSpawner
+  description: 
+  icon: {fileID: 0}
+  category: General
+  constructionPrefab: {fileID: 5579140177181451488, guid: 552bd30221e03fb4397b66ea019c4825, type: 3}
+  completedPrefab: {fileID: 5579140177181451488, guid: 552bd30221e03fb4397b66ea019c4825, type: 3}
+  footprint: {x: 4, y: 3}
+  height: 3
+  maxWorkers: 4
+  maxTerrainSlope: 30
+  requiresNavMesh: 1
+  minDistanceFromBuildings: 0
+  allowedTerrain: []
+  requiredBuildings: []

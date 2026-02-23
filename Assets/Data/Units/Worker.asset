@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 529205c354eaf2f4bbceb196d9873bfb, type: 3}
+  m_Name: Worker
+  m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.NPCs.Spawning.UnitDefinitionSO
+  unitId: Worker
+  displayName: Worker
+  description: 
+  icon: {fileID: 0}
+  unitType: 0
+  prefab: {fileID: 8956694495116359362, guid: 3914f8fe3a89cea4484bdf20e153903f, type: 3}
+  spawnCosts:
+  - ResourceType: 3
+    Amount: 5
+  spawnTime: 0
+  populationCost: 1
+  maxCount: -1
+  spawnCooldown: 0

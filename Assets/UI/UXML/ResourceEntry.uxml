@@ -1,0 +1,10 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/USS/GameUI.uss?fileID=7433441132597879392&amp;guid=099d383ca7f19824d8ecfcf7f1517f0b&amp;type=3#GameUI"/>
+    <ui:VisualElement name="entry-container" class="resource-entry">
+        <ui:VisualElement name="icon-container" class="resource-entry__icon-container">
+            <ui:VisualElement name="icon" class="resource-entry__icon"/>
+        </ui:VisualElement>
+        <ui:Label name="resource-name" text="Resource" class="resource-entry__name"/>
+        <ui:Label name="resource-counter" text="0" class="resource-entry__counter"/>
+    </ui:VisualElement>
+</ui:UXML>

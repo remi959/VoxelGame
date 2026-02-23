@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb0d9fc29d1e5544b4b4ed8c13d78fb, type: 3}
+  m_Name: NPCSettings
+  m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.Data.NPCSettingsSO
+  DefaultArrivalDistance: 2
+  StoppingDistance: 0.5
+  DefaultMoveSpeed: 5
+  StuckDetectionTime: 2
+  StuckMovementThreshold: 0.01
+  CloseEnoughDistance: 2
+  DefaultInteractionDistance: 2
+  PostPickupDelay: 0.1
+  TargetMoveThreshold: 0.1
+  BuildingInteractionDistance: 3

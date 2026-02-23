@@ -1,0 +1,16 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/USS/GameUI.uss?fileID=7433441132597879392&amp;guid=099d383ca7f19824d8ecfcf7f1517f0b&amp;type=3#GameUI"/>
+    <ui:VisualElement name="spawn-unit-entry" class="spawn-unit-entry">
+        <ui:VisualElement name="entry-icon-container" class="spawn-unit-entry__icon-container">
+            <ui:VisualElement name="entry-icon" class="spawn-unit-entry__icon"/>
+        </ui:VisualElement>
+        <ui:VisualElement name="entry-info" class="spawn-unit-entry__info">
+            <ui:Label name="entry-name" text="Unit Name" class="spawn-unit-entry__name"/>
+            <ui:Label name="entry-description" text="Unit description goes here" class="spawn-unit-entry__description"/>
+        </ui:VisualElement>
+        <ui:VisualElement name="entry-costs" class="spawn-unit-entry__costs"/>
+        <ui:VisualElement name="entry-status" class="spawn-unit-entry__status">
+            <ui:Label name="entry-status-text" text="" class="spawn-unit-entry__status-text"/>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
