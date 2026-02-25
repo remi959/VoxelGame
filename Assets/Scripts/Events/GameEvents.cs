@@ -2,11 +2,12 @@ using UnityEngine;
 
 namespace Assets.Scripts.Events
 {
-    // Selection Events
+    // ── Selection Events ──────────────────────────────────────────────
+
     public struct NPCSelectedEvent
     {
         public GameObject NPC;
-        public bool AddToSelection; // For shift-click multi-select
+        public bool AddToSelection;
     }
 
     public struct NPCDeselectedEvent
@@ -16,7 +17,8 @@ namespace Assets.Scripts.Events
 
     public struct SelectionClearedEvent { }
 
-    // Command Events
+    // ── Player Command Events ─────────────────────────────────────────
+
     public struct MoveCommandEvent
     {
         public Vector3 Destination;
@@ -24,28 +26,13 @@ namespace Assets.Scripts.Events
 
     public struct StopCommandEvent { }
 
-    public struct GatherCommandEvent
-    {
-        public GameObject Resource;
-    }
-
     public struct InteractCommandEvent
     {
         public GameObject Target;
     }
 
-    public struct ResourceDepletedEvent
-    {
-        public GameObject Resource;
-    }
+    // ── Pawn Lifecycle Events ─────────────────────────────────────────
 
-    public struct ResourceDepositedEvent
-    {
-        public int Amount;
-        public int ResourceType; // Cast from ResourceType enum
-    }
-
-    // NPC Lifecycle Events
     public struct NPCSpawnedEvent
     {
         public GameObject NPC;

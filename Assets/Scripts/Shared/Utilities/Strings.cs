@@ -10,9 +10,14 @@ namespace Assets.Scripts.Shared.Utilities
         public const string RightClickActionName = "RightClick";
 
         /// ==================================================================
+        /// Scene Hierarchy Names
+        /// ==================================================================
+        public const string WorldContainerName = "World";
+
+        /// ==================================================================
         /// Layermask Names
         /// ==================================================================
-        public const string GroundLayerName = "Ground";
+        public const string GroundLayerName = "Ground"; 
         public const string NPCLayerName = "NPC";
         public const string InteractableLayerName = "Interactable";
     }

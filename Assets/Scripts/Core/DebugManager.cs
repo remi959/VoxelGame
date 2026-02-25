@@ -21,6 +21,9 @@ namespace Assets.Scripts.Core
         [Tooltip("Logs for NPC state machine transitions")]
         public bool EnableNPCStateDebug = false;
 
+        [Tooltip("Logs for job assignment, queuing, completion, and WorkGiver scanning")]
+        public bool EnableJobSystemDebug = false;
+
         [Tooltip("Logs for NPC movement and navigation")]
         public bool EnableNPCMovementDebug = false;
 
@@ -83,6 +86,15 @@ namespace Assets.Scripts.Core
         {
             if (Instance != null && Instance.EnableNPCStateDebug)
                 Debug.Log($"[State] {message}");
+        }
+
+        /// <summary>
+        /// Log a job system message (assignment, queuing, completion, WorkGiver scans).
+        /// </summary>
+        public static void LogJob(string message)
+        {
+            if (Instance != null && Instance.EnableJobSystemDebug)
+                Debug.Log($"[Job] {message}");
         }
 
         /// <summary>

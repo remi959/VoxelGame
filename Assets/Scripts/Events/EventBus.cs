@@ -33,8 +33,14 @@ namespace Assets.Scripts.Events
         {
             if (events.TryGetValue(typeof(T), out var handler))
                 ((Action<T>)handler)?.Invoke(eventData);
+            else
+                UnityEngine.Debug.LogWarning($"[EventBus] No subscribers for {typeof(T).Name}");
         }
 
-        public static void Clear() => events.Clear();
+        public static void Clear()
+        {
+            UnityEngine.Debug.Log($"[EventBus] Clear() called — wiping {events.Count} event types. Stack: {UnityEngine.StackTraceUtility.ExtractStackTrace()}");
+            events.Clear();
+        }
     }
 }

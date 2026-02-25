@@ -1,16 +1,21 @@
 using System.Collections.Generic;
 using Assets.Scripts.Events;
-using Assets.Scripts.NPCs;
+using Assets.Scripts.NPCs.Modules;
 using UnityEngine;
 
 namespace Assets.Scripts.Core
 {
+    /// <summary>
+    /// Tracks which Selectables are currently selected by the player.
+    /// Pure selection state — command dispatching is handled by CommandDispatcher.
+    /// Works with any Selectable (pawns, buildings, resources in the future).
+    /// </summary>
     public class SelectionManager : MonoBehaviour
     {
         public static SelectionManager Instance { get; private set; }
 
-        private readonly List<NPCBase> selectedNPCs = new();
-        public IReadOnlyList<NPCBase> SelectedNPCs => selectedNPCs;
+        private readonly List<Selectable> selected = new();
+        public IReadOnlyList<Selectable> Selected => selected;
 
         private void Awake()
         {
@@ -19,64 +24,57 @@ namespace Assets.Scripts.Core
                 Destroy(gameObject);
                 return;
             }
+
             Instance = this;
         }
 
         private void OnEnable()
         {
-            EventBus.Subscribe<NPCSelectedEvent>(OnNPCSelected);
-            EventBus.Subscribe<NPCDeselectedEvent>(OnNPCDeselected);
+            Debug.Log("[SelectionManager] OnEnable — subscribing to events");
+            EventBus.Subscribe<NPCSelectedEvent>(OnSelected);
+            EventBus.Subscribe<NPCDeselectedEvent>(OnDeselected);
             EventBus.Subscribe<SelectionClearedEvent>(OnSelectionCleared);
-            EventBus.Subscribe<MoveCommandEvent>(OnMoveCommand);
-            EventBus.Subscribe<InteractCommandEvent>(OnInteractCommand);
         }
 
         private void OnDisable()
         {
-            EventBus.Unsubscribe<NPCSelectedEvent>(OnNPCSelected);
-            EventBus.Unsubscribe<NPCDeselectedEvent>(OnNPCDeselected);
+            EventBus.Unsubscribe<NPCSelectedEvent>(OnSelected);
+            EventBus.Unsubscribe<NPCDeselectedEvent>(OnDeselected);
             EventBus.Unsubscribe<SelectionClearedEvent>(OnSelectionCleared);
-            EventBus.Unsubscribe<MoveCommandEvent>(OnMoveCommand);
-            EventBus.Unsubscribe<InteractCommandEvent>(OnInteractCommand);
         }
 
-        private void OnNPCSelected(NPCSelectedEvent e)
+        private void OnSelected(NPCSelectedEvent e)
         {
-            if (!e.NPC.TryGetComponent<NPCBase>(out var npc)) return;
+            bool hasSelectable = e.NPC.TryGetComponent<Selectable>(out var selectable);
+            Debug.Log($"[SelectionManager] OnSelected received for: {e.NPC.name}, has Selectable: {hasSelectable}");
+            if (!hasSelectable) return;
 
-            if (!e.AddToSelection) ClearSelection();
+            if (!e.AddToSelection)
+                ClearSelection();
 
-            if (!selectedNPCs.Contains(npc))
+            if (!selected.Contains(selectable))
             {
-                selectedNPCs.Add(npc);
-                npc.OnSelected();
+                selected.Add(selectable);
+                selectable.Select();
             }
         }
 
-        private void OnNPCDeselected(NPCDeselectedEvent e)
+        private void OnDeselected(NPCDeselectedEvent e)
         {
-            if (!e.NPC.TryGetComponent<NPCBase>(out var npc)) return;
+            if (!e.NPC.TryGetComponent<Selectable>(out var selectable)) return;
 
-            if (selectedNPCs.Remove(npc)) npc.OnDeselected();
+            if (selected.Remove(selectable))
+                selectable.Deselect();
         }
 
         private void OnSelectionCleared(SelectionClearedEvent e) => ClearSelection();
 
         private void ClearSelection()
         {
-            foreach (var npc in selectedNPCs) npc.OnDeselected();
+            foreach (var selectable in selected)
+                selectable.Deselect();
 
-            selectedNPCs.Clear();
-        }
-
-        private void OnMoveCommand(MoveCommandEvent e)
-        {
-            foreach (var npc in selectedNPCs) npc.MoveTo(e.Destination);
-        }
-
-        private void OnInteractCommand(InteractCommandEvent e)
-        {
-            foreach (var npc in selectedNPCs) npc.InteractWith(e.Target);
+            selected.Clear();
         }
     }
 }

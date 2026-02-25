@@ -100,21 +100,30 @@ namespace Assets.Scripts.Core
         {
             Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
 
+            Debug.Log($"[InputManager] ProcessLeftClick fired. Ray origin: {ray.origin}");
+
             if (Physics.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity, selectableLayerMask))
             {
                 int hitLayer = hitInfo.collider.gameObject.layer;
+                Debug.Log($"[InputManager] Raycast hit: {hitInfo.collider.gameObject.name}, layer: {LayerMask.LayerToName(hitLayer)} ({hitLayer}), npcLayer expected: {npcLayer}");
 
                 if (hitLayer == npcLayer)
                 {
+                    GameObject npcObject = hitInfo.collider.gameObject;
                     bool addToSelection = Keyboard.current.shiftKey.isPressed;
 
+                    Debug.Log($"[InputManager] Publishing NPCSelectedEvent for: {npcObject.name}");
                     EventBus.Publish(new NPCSelectedEvent
                     {
-                        NPC = hitInfo.collider.gameObject,
+                        NPC = npcObject,
                         AddToSelection = addToSelection
                     });
                 }
                 else if (hitLayer == groundLayer) EventBus.Publish(new SelectionClearedEvent());
+            }
+            else
+            {
+                Debug.Log("[InputManager] Raycast hit nothing");
             }
         }
 
